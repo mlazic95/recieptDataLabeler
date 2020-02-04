@@ -9,6 +9,11 @@ import Cocoa
 import QuartzCore
 
 class AnnotationLayer: CALayer {
+    var rect: CGRect! {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     var results: [((CGPoint, CGPoint, CGPoint, CGPoint), String)] = [] {
         didSet {
             setNeedsDisplay()
@@ -39,6 +44,7 @@ class AnnotationLayer: CALayer {
         let width = bounds.size.width
         let height = bounds.size.height
         let cgPath = CGMutablePath()
+        
         for ((pt1, pt2, pt3, pt4), string) in self.results {
             if textFilter.isEmpty || string.contains(textFilter) {
                 cgPath.move(to: CGPoint(x: pt1.x * width, y: pt1.y * height))
@@ -46,7 +52,6 @@ class AnnotationLayer: CALayer {
                 cgPath.addLine(to: CGPoint(x: pt3.x * width, y: pt3.y * height))
                 cgPath.addLine(to: CGPoint(x: pt4.x * width, y: pt4.y * height))
                 cgPath.addLine(to: CGPoint(x: pt1.x * width, y: pt1.y * height))
-                
             }
         }
         
