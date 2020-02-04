@@ -85,7 +85,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, VisionViewDelegate, NSSearch
     }
     @IBAction func skipPressed(_ sender: NSButton) {
         do {
-            try fm.moveItem(at: URL(fileURLWithPath: recieptsPath + items[index]), to: URL(fileURLWithPath: skippedPath +  "\(index)._" + items[index]))
+            let date = Date()
+            try fm.moveItem(at: URL(fileURLWithPath: recieptsPath + items[index]), to: URL(fileURLWithPath: skippedPath +  date.description + "_" + items[index]))
             index+=1
             ocrResult.removeAll()
             labels.removeAll()
@@ -100,7 +101,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, VisionViewDelegate, NSSearch
     
     @IBAction func deletePressed(_ sender: Any) {
         do {
-            try fm.moveItem(at: URL(fileURLWithPath: recieptsPath + items[index]), to: URL(fileURLWithPath: deletedPath +  "\(index)._" + items[index]))
+            let date = Date()
+            try fm.moveItem(at: URL(fileURLWithPath: recieptsPath + items[index]), to: URL(fileURLWithPath: deletedPath +  date.description + "_" + items[index]))
             index+=1
             ocrResult.removeAll()
             labels.removeAll()
@@ -194,7 +196,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, VisionViewDelegate, NSSearch
             //Convert back to string. Usually only do this for debugging
             if let ocrString = String(data: ocrJson, encoding: String.Encoding.utf8), let labelsString = String(data: labelJson, encoding: String.Encoding.utf8) {
                try ocrString.write(to: URL(fileURLWithPath: donePath + name + "_text_items.txt"), atomically: true, encoding: .utf8)
-               try labelsString.write(to: URL(fileURLWithPath: donePath + name + "_labels.txt"), atomically: true, encoding: .utf8)
+               if !labeledProducts.isEmpty {
+                  try labelsString.write(to: URL(fileURLWithPath: donePath + name + "_labels.txt"), atomically: true, encoding: .utf8)
+               }
                try rawOcrResult.write(to: URL(fileURLWithPath: donePath + name + "_raw_text.txt"), atomically: true, encoding: .utf8)
                 
             }
