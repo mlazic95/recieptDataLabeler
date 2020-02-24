@@ -13,10 +13,12 @@ class TextItem {
     var str: String
     var box: CGRect
     var rect: (CGPoint, CGPoint, CGPoint, CGPoint)
+    var angle: CGFloat
     
-    init(str: String, box: CGRect, rect: (CGPoint, CGPoint, CGPoint, CGPoint) ) {
+    init(str: String, box: CGRect, rect: (CGPoint, CGPoint, CGPoint, CGPoint), angle: CGFloat) {
         self.str = str
         self.box = box
         self.rect = rect
+        self.angle = angle
     }
 }
